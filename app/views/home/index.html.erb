@@ -1,0 +1,36 @@
+<div class="container">
+  <h1 align="center">Sangmin's Board</h1>
+  <form style="margin-top:30px" action="/home/write" method="POST">
+  <div class="form-group">
+    <label for="exampleInputEmail1">제목</label>
+    <input type="text" class="form-control" name="title" placeholder="제목">
+  </div>
+  <div class="form-group">
+    <label for="exampleInputPassword1">내용</label>
+    <textarea class="form-control" id="content" name="content" placeholder="내용" rows="5"></textarea>
+  </div>
+  <button type="submit" class="btn btn-default">게시</button>
+  <hr>
+</form>
+            <h5 class="word">내용 글자 수(공백포함) : 
+              <%=@postsAll%>
+            </h5>
+            <h5 class="word">내용 단어 수 : 
+              <%=@post%>
+            </h5>
+    <% @posts.each do |p| %>
+        <div class="well" style="background-image:url(https://encrypted-tbn1.gstatic.com/images?q=tbn:ANd9GcRiFUAU6-FQGj-Y-eJmKP9CZAemh1KnHjHjm9YhVKr1i7HuASHmjMLTeb45); background-repeat:no-repeat; background-size:cover;">
+            <span style="font-weight:bold"><%= p.title %></span><br>
+            <%= p.content %><br>
+            <hr>
+        <% p.replies.each do |r| %>
+          <p><%= r.content %></p>
+        <%end%>
+        <form action="/home/reply_write" method="POST">
+            <input type="hidden" value="<%= p.id %>" name="postcontent">
+            <input class="form-control" id="content" name="replycontent" placeholder="내용">
+            <button type="submit" class="btn btn-default">댓글작성</button>
+        </form>
+        </div>
+    <%end%>
+</div>
