@@ -1,9 +1,9 @@
 class HomeController < ApplicationController
   def index
     @posts = Post.all.reverse
-    @postsAll = Post.last.content.length # 내용의 글자 수 공백포함
-    #@post = Post.last.content.length - Content.last.content.count(' ')# 모든 글자수 공백 미포함
-    @post = Post.last.content.split(' ').length # 내용의 단어 수
+    @post_1 = Post.last.content.length # 내용의 글자 수 공백포함
+    @post_2 = Post.last.content.length - Post.last.content.count(' ')# 모든 글자수 공백 미포함
+    @post_3 = Post.last.content.split(' ').length # 내용의 단어 수
   end
   
   def write
@@ -14,16 +14,20 @@ class HomeController < ApplicationController
     if  post.save
         redirect_to "/home/index"
     else 
-        render :text => post.errors.messages[:title.first]
+        render :text => post.errors.messages
     end
   end
   
   def reply_write
     reply = Reply.new
-    reply.content = params[:replycontent]
-    reply.post_id = params[:postcontent]
+    reply.content = params[:reply_content]
+    reply.post_id = params[:id_of_post]
+    #if
     reply.save
-    
-    redirect_to "/home/index"
+       redirect_to "/home/index"
+    #else
+     #  render :text => reply.errors.messages
+    #end
   end
+  
 end
